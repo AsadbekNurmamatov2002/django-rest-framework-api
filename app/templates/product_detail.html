@@ -1,0 +1,79 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}Order-cerate{% endblock title %}
+
+{% block content %}
+
+    <table style="width:90%;" class="table caption-top">
+        <p style="text-align:center; margin-top:50px;" class="fw-normal">Siz bu {{products.name}} Yaratishinggiz uchun kerakli Xomashyolar!!! </p>
+        <div  style="margin-top:50px;display: flex;
+    align-items: center;
+    justify-content: center;">
+        <thead>
+          <tr>
+            <th scope="col">#id</th>
+            <th scope="col">Rasm</th>
+            {% for p in products.productkx_set.all %}
+            <th>
+              {{p.xomashyolar.nome}}
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{ products.id }}</th>
+            <td><img src="{{ products.image.url }}" width=100px higth=80px ></td>
+            {% for pmk in products.productkx_set.all %}
+            <th>
+              miqdori: {{pmk.soni}} 
+            </th>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </div>
+      </table>
+      <div  style="margin-top:50px;display: flex;
+    align-items: center;
+    justify-content: center;">
+    <form method="post" action="" products.id >
+        {% csrf_token %}
+        <h1>Buyrutma soni</h1>
+        <input name='soni' placeholder="Buyrutma Berish..." />
+        <button class="btn btn-primary">buyurtma</button>
+    </form>
+  </div>
+
+<br>
+<div class="card" style="margin-top:50px;">
+  <h5 class="card-header">Korxona Omboridagi Mahsulotlar </h5>
+</div>
+
+<div  style="margin-top:50px;display: flex;
+    align-items: center;
+    justify-content: center;">
+<table class="table caption-top">
+    <thead>
+      <tr>
+        <th scope="col">Rasm</th>
+        <th scope="col">Nomi</th>
+        <th scope="col">Soni</th>
+        <th scope="col">Uzunlik</th>
+        <th scope="col">narxi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in xomashyolar%}
+      <tr>
+        <th scope="row"><img width=70px src="{{ p.image.url }}"/></th>
+        <td>{{ p.nome }}</td>
+        <td>{{ p.soni }} ta</td>
+        <td>{{ p.meter}} m</td>
+        <td>{{ p.narxi }} So'm</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}
