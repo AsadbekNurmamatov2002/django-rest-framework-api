@@ -24,6 +24,8 @@ amallarni
 qila olmaydi 
 
 """
+
+#  Product list
 class ProductListView(ListAPIView):
     queryset=Product.objects.all()
     serializer_class=ProductSerializer
@@ -32,18 +34,46 @@ class ProductListView(ListAPIView):
 
 product_list_views=ProductListView.as_view()
 
+#  Product Detail
+class ProductDetailApi(RetrieveAPIView):
+    queryset=Product.objects.all()
+    serializer_class=ProductSerializer
+    lookup_field="pk"
+    
+product_detail_view=ProductDetailApi.as_view()
+
+# product create
 class ProductCreateView(CreateAPIView):
     queryset=Product.objects.all()
     serializer_class=ProductSerializer
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 product_create_views=ProductCreateView.as_view()
+# Product Update
+class ProductUpdateView(UpdateAPIView):
+    queryset=Product.objects.all()
+    serializer_class=ProductSerializer
+    # slug desak ham bo'ladi urlni to'g'rilab
+    lookup_field="pk"
+    
+    def perform_update(self, serializer):
+        return super().perform_update(serializer)
 
+product_update_views=ProductUpdateView.as_view()
 
-
-
-
-
+#  delete Product
+class ProductDestroyViews(DestroyAPIView):
+    queryset=Product.objects.all()
+    serializer_class=ProductSerializer
+    # slug desak ham bo'ladi urlni to'g'rilab
+    lookup_field='pk'
+    def perform_destroy(self, instance):
+        return super().perform_destroy(instance)
+    
+product_delete_views=ProductDestroyViews.as_view()
+    
+    
+    
 
 
 # ====================================================================================================================

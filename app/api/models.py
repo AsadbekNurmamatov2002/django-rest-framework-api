@@ -19,6 +19,8 @@ class Product(models.Model):
     name=models.CharField(max_length=250)
     image=models.ImageField(upload_to='product/%Y/%M/%D/')
     slug=models.SlugField(max_length=260, blank=True)
+    
+    
     def save(self, *args, **kwargs):
         if self.slug==None:
             slug = slugify(self.name)
@@ -30,9 +32,21 @@ class Product(models.Model):
                 has_slog=Product.objects.filter(slug=slug).exclude()
             self.slug=slug
         super().save(*args, **kwargs)
+        
     def get_absolute_url(self):
         return reverse("product:product_detail", args=[ self.id,
-                                                        self.slug])
+                                                   self.slug])
+    
+    # bu function orqali biz productga bo'gluq modeldan malomot olish mumkun
+    """ orders model """
+    @property
+    def orders(self):
+        return self.orders_set.all()
+    
+    """ productga ketadigan Xomashyolar """
+    @property
+    def productkitadiganxomashyolar(self):
+        return self.productkx_set.all()
     
 """ 
  product va Xomashyolarni birlashtirovchi qo'shimcha 
